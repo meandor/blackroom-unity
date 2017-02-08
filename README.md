@@ -5,7 +5,7 @@ Blackroom is a Android App for Google Cardboard. The player has to endure scares
 https://developers.google.com/vr/unity/
 
 ## Configure development environment
-Follow the install instructions on: [https://developers.google.com/vr/unity/download]
+Follow the install instructions on: https://developers.google.com/vr/unity/download
 
 ## GVR Unity Samples
 https://github.com/googlevr/gvr-unity-sdk/tree/master/Samples
