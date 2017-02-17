@@ -20,6 +20,7 @@ public class Scare : MonoBehaviour
     void Start()
     {
         startingPosition = transform.localPosition;
+        audio.loop = true;
         this.ToggleVisibility(isVisible);
     }
 
@@ -40,6 +41,7 @@ public class Scare : MonoBehaviour
     public void Reset()
     {
         transform.localPosition = startingPosition;
+        this.ToggleVisibility(true);
     }
 
     private void ToggleVisibility(bool active)
@@ -47,7 +49,8 @@ public class Scare : MonoBehaviour
         this.gameObject.SetActive(active);
         if (active)
         {
-            audio.PlayOneShot(scareSound);
+            audio.clip = scareSound;
+            audio.Play();
         }
     }
 
@@ -77,7 +80,7 @@ public class Scare : MonoBehaviour
 
     private Vector3 CenterScreenPosition()
     {
-        return Camera.main.ViewportToWorldPoint(new Vector3(0.5f, -0.5f, 0.8f));
+        return Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.2f, 1f));
     }
 
     private void Hide()
