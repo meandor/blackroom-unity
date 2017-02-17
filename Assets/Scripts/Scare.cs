@@ -1,9 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(GvrAudioSource))]
-[RequireComponent(typeof(Renderer))]
 public class Scare : MonoBehaviour
 {
     private Vector3 startingPosition;
@@ -11,6 +9,7 @@ public class Scare : MonoBehaviour
     private AudioClip jumpScareSound;
     public AudioClip scareSound;
     public bool isVisible;
+    public Camera camera;
 
     void Awake()
     {
@@ -54,23 +53,15 @@ public class Scare : MonoBehaviour
 
     private IEnumerator StartTeleport()
     {
-        // hide
         Debug.Log("hide");
-
         this.Hide();
         yield return new WaitForSecondsRealtime(3);
         Debug.Log("in your face");
-        // show in center camera
         this.InYourFace();
         yield return new WaitForSecondsRealtime(1.5f);
         this.Hide();
         yield return new WaitForSecondsRealtime(4);
         // TODO Show next scare
-    }
-
-    private Vector3 CenterScreenPosition()
-    {
-        return Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0, 1f));
     }
 
     private void InYourFace()
@@ -79,7 +70,14 @@ public class Scare : MonoBehaviour
         Vector3 pos = this.CenterScreenPosition();
         Debug.Log("in your face pos: " + pos.x + ", " + pos.y + ", " + pos.z);
         transform.localPosition = this.CenterScreenPosition();
+        float deltaY = camera.transform.localEulerAngles.y - 90.0f;
+        transform.localEulerAngles = new Vector3(0.0f, deltaY, 0.0f);
         audio.PlayOneShot(jumpScareSound);
+    }
+
+    private Vector3 CenterScreenPosition()
+    {
+        return Camera.main.ViewportToWorldPoint(new Vector3(0.5f, -0.5f, 0.8f));
     }
 
     private void Hide()
