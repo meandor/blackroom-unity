@@ -10,6 +10,10 @@ public class Scare : MonoBehaviour
     public AudioClip scareSound;
     public bool isVisible;
     public Camera camera;
+    public float deltaYOffset;
+    public float centerXOffset;
+    public float centerYOffset;
+    public float centerZOffset;
 
     void Awake()
     {
@@ -73,14 +77,14 @@ public class Scare : MonoBehaviour
         Vector3 pos = this.CenterScreenPosition();
         Debug.Log("in your face pos: " + pos.x + ", " + pos.y + ", " + pos.z);
         transform.localPosition = this.CenterScreenPosition();
-        float deltaY = camera.transform.localEulerAngles.y - 90.0f;
+        float deltaY = camera.transform.localEulerAngles.y - deltaYOffset;
         transform.localEulerAngles = new Vector3(0.0f, deltaY, 0.0f);
         audio.PlayOneShot(jumpScareSound);
     }
 
     private Vector3 CenterScreenPosition()
     {
-        return Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.2f, 1f));
+        return Camera.main.ViewportToWorldPoint(new Vector3(this.centerXOffset, this.centerYOffset, this.centerZOffset));
     }
 
     private void Hide()
