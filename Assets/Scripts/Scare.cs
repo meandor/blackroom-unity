@@ -19,7 +19,7 @@ public class Scare : MonoBehaviour
 
     void Awake()
     {
-        jumpScareSound = Resources.Load<AudioClip>("Audio/jump_scare");
+        jumpScareSound = Resources.Load<AudioClip>("Audio/jump_scare_2");
         audio = GetComponent<GvrAudioSource>();
     }
 
