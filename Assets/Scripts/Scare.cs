@@ -14,7 +14,7 @@ public class Scare : MonoBehaviour
 
     void Awake()
     {
-        jumpScareSound = Resources.Load<AudioClip>("Audio/162472__kastenfrosch__scary");
+        jumpScareSound = Resources.Load<AudioClip>("Audio/jump_scare");
         audio = GetComponent<GvrAudioSource>();
     }
 
@@ -48,7 +48,7 @@ public class Scare : MonoBehaviour
         this.gameObject.SetActive(active);
         if (active)
         {
-            audio.PlayOneShot(scareSound, 0.8f);
+            audio.PlayOneShot(scareSound);
         }
     }
 
@@ -75,10 +75,11 @@ public class Scare : MonoBehaviour
 
     private void InYourFace()
     {
+        audio.Stop();
         Vector3 pos = this.CenterScreenPosition();
         Debug.Log("in your face pos: " + pos.x + ", " + pos.y + ", " + pos.z);
         transform.localPosition = this.CenterScreenPosition();
-        audio.PlayOneShot(jumpScareSound, 0.4f);
+        audio.PlayOneShot(jumpScareSound);
     }
 
     private void Hide()
