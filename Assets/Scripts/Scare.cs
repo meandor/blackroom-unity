@@ -5,6 +5,7 @@ using System.Collections;
 public class Scare : MonoBehaviour
 {
     private Vector3 startingPosition;
+    private Quaternion startingRotation;
     private GvrAudioSource audio;
     private AudioClip jumpScareSound;
     public AudioClip scareSound;
@@ -24,6 +25,7 @@ public class Scare : MonoBehaviour
     void Start()
     {
         startingPosition = transform.localPosition;
+        startingRotation = transform.localRotation;
         audio.loop = true;
         this.ToggleVisibility(isVisible);
     }
@@ -45,6 +47,7 @@ public class Scare : MonoBehaviour
     public void Reset()
     {
         transform.localPosition = startingPosition;
+        transform.localRotation = startingRotation;
         this.ToggleVisibility(true);
     }
 
