@@ -77,7 +77,7 @@ public class Scare : MonoBehaviour
         Vector3 pos = this.CenterScreenPosition();
         Debug.Log("in your face pos: " + pos.x + ", " + pos.y + ", " + pos.z);
         transform.localPosition = this.CenterScreenPosition();
-        float deltaY = camera.transform.localEulerAngles.y - deltaYOffset;
+        float deltaY = camera.transform.localEulerAngles.y + deltaYOffset;
         transform.localEulerAngles = new Vector3(0.0f, deltaY, 0.0f);
         audio.PlayOneShot(jumpScareSound);
     }
