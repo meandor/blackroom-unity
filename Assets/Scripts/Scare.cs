@@ -101,7 +101,7 @@ public class Scare : IScare
     {
         if (this.nextScare != null)
         {
-            this.nextScare.Reset(true);
+            this.nextScare.Reset();
         }
         this.ToggleVisibility(false);
     }
