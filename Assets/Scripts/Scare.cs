@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(GvrAudioSource))]
-public class Scare : MonoBehaviour
+public class Scare : IScare
 {
     private Vector3 startingPosition;
     private Quaternion startingRotation;
@@ -15,7 +15,7 @@ public class Scare : MonoBehaviour
     public float centerXOffset;
     public float centerYOffset;
     public float centerZOffset;
-    public Scare nextScare;
+    public IScare nextScare;
 
     void Awake()
     {
@@ -45,14 +45,14 @@ public class Scare : MonoBehaviour
         StartCoroutine(StartTeleport());
     }
 
-    public void Reset()
+    public override void Reset()
     {
         transform.localPosition = startingPosition;
         transform.localRotation = startingRotation;
         this.ToggleVisibility(true);
     }
 
-    private void ToggleVisibility(bool active)
+    public override void ToggleVisibility(bool active)
     {
         this.gameObject.SetActive(active);
         if (active)
@@ -72,12 +72,7 @@ public class Scare : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.5f);
         this.Hide();
         yield return new WaitForSecondsRealtime(4);
-        if (this.nextScare != null)
-        {
-            this.nextScare.ToggleVisibility(true);
-        }
-        this.ToggleVisibility(false);
-        // TODO Show next scare
+        this.SwitchToNextScare();
     }
 
     private void InYourFace()
@@ -100,5 +95,14 @@ public class Scare : MonoBehaviour
     {
         audio.Pause();
         transform.localPosition = new Vector3(30, 30, 30);
+    }
+
+    private void SwitchToNextScare()
+    {
+        if (this.nextScare != null)
+        {
+            this.nextScare.Reset(true);
+        }
+        this.ToggleVisibility(false);
     }
 }
