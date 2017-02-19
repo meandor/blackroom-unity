@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 [RequireComponent(typeof(Text))]
 [RequireComponent(typeof(AudioSource))]
@@ -22,20 +21,11 @@ public class GvrMicLevel : MonoBehaviour
     void Start()
     {
         this.playerCamera = Camera.main;
-        /*transform.localPosition = this.playerCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1));
-        //float deltaY = this.playerCamera.transform.localEulerAngles.y - 90;
-        Vector3 cameraRotation = this.playerCamera.transform.localEulerAngles;
-        Vector3 rotateView = new Vector3(cameraRotation.x, (cameraRotation.y + 10), (cameraRotation.z + 10));
-        transform.localEulerAngles = rotateView;*/
         transform.SetParent(playerCamera.GetComponent<Transform>(), true);
-
-        //add the rest of the code like this
         audio.clip = Microphone.Start("Built-in Microphone", true, 10, 44100);
         audio.loop = true;
         while (!(Microphone.GetPosition(null) > 0)) { }
         audio.Play();
-
-        //Do not Mute the audio Source.
     }
 
     float GetAveragedVolume()
