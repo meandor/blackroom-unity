@@ -1,20 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Text))]
 [RequireComponent(typeof(AudioSource))]
-public class GvrMicLevel : MonoBehaviour
+public class MicrophoneLevel : MonoBehaviour
 {
-    private const string DISPLAY_TEXT_FORMAT = "{0} Mic";
-    private Text textField;
     private Camera playerCamera;
     private float loudness = 0;
+    private int score;
+    private AudioSource audio;
     public float sensitivity = 100;
-    public AudioSource audio;
+    public ScoreBoard scoreBoard;
+    public GameObject scoreBoardGameObject;
+    public int scoreThreshold;
 
     void Awake()
     {
-        textField = GetComponent<Text>();
         audio = GetComponent<AudioSource>();
     }
 
@@ -26,6 +26,7 @@ public class GvrMicLevel : MonoBehaviour
         audio.loop = true;
         while (!(Microphone.GetPosition(null) > 0)) { }
         audio.Play();
+        this.score = 0;
     }
 
     float GetAveragedVolume()
@@ -40,14 +41,22 @@ public class GvrMicLevel : MonoBehaviour
         return a / 256;
     }
 
-    void LateUpdate()
+    void Update()
     {
-        loudness = GetAveragedVolume() * sensitivity;
-        textField.text = string.Format(DISPLAY_TEXT_FORMAT, Mathf.RoundToInt(loudness));
+        this.loudness = GetAveragedVolume() * sensitivity;
+
+        if (this.scoreBoardGameObject.activeSelf)
+        {
+            this.scoreBoard.scoreTextField.text = this.score.ToString();
+        }
+        else if (!this.scoreBoardGameObject.activeSelf && this.loudness > this.scoreThreshold)
+        {
+            this.score += 10;
+        }
     }
 
-    public float GetLoudness()
+    public void Reset()
     {
-        return this.loudness;
+        this.score = 0;
     }
 }
